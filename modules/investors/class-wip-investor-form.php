@@ -23,13 +23,15 @@ class WIP_Investor_Form {
 
             <h2>Add Investor</h2>
 
-            <form method="post">
+            <form id="wip-investor-form">
+
+                <?php wp_nonce_field( 'wip_investor_nonce', 'wip_nonce' ); ?>
 
                 <table class="form-table">
 
                     <tr>
                         <th><label for="full_name">Full Name</label></th>
-                        <td><input type="text" name="full_name" id="full_name" class="regular-text"></td>
+                        <td><input type="text" name="full_name" id="full_name" class="regular-text" required></td>
                     </tr>
 
                     <tr>
@@ -69,6 +71,8 @@ class WIP_Investor_Form {
                         Save Investor
                     </button>
                 </p>
+
+                <div id="wip-investor-message"></div>
 
             </form>
 
