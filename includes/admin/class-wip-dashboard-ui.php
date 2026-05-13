@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once WIP_PLUGIN_PATH . 'includes/admin/class-wip-ui-components.php';
+require_once WIP_PLUGIN_PATH . 'includes/admin/class-wip-dashboard-data.php';
 
 class WIP_Dashboard_UI {
 
@@ -19,18 +20,43 @@ class WIP_Dashboard_UI {
      * @return void
      */
     public static function render() {
+
+        $stats = WIP_Dashboard_Data::get_dashboard_stats();
+
         ?>
         <div class="wrap wip-dashboard-wrapper">
 
-            <h1 class="wip-page-title">WP Investor Panel Dashboard</h1>
+            <div class="wip-topbar">
+                <h1 class="wip-page-title">WP Investor Panel Dashboard</h1>
+
+                <div class="wip-topbar-actions">
+                    <button class="button button-primary">Add Investor</button>
+                    <button class="button">Add Production</button>
+                </div>
+            </div>
 
             <div class="wip-kpi-grid">
 
                 <?php
-                WIP_UI_Components::render_kpi_card( 'Total Investment', '₹0' );
-                WIP_UI_Components::render_kpi_card( 'Production Today', '0 KG' );
-                WIP_UI_Components::render_kpi_card( 'Monthly Revenue', '₹0' );
-                WIP_UI_Components::render_kpi_card( 'Active Investors', '0' );
+                WIP_UI_Components::render_kpi_card(
+                    'Total Investment',
+                    '₹' . number_format( $stats['total_investment'], 2 )
+                );
+
+                WIP_UI_Components::render_kpi_card(
+                    'Production Today',
+                    $stats['production_today'] . ' KG'
+                );
+
+                WIP_UI_Components::render_kpi_card(
+                    'Monthly Revenue',
+                    '₹' . number_format( $stats['monthly_revenue'], 2 )
+                );
+
+                WIP_UI_Components::render_kpi_card(
+                    'Active Investors',
+                    $stats['active_investors']
+                );
                 ?>
 
             </div>
@@ -40,13 +66,13 @@ class WIP_Dashboard_UI {
                 <?php
                 WIP_UI_Components::render_section_card(
                     'Revenue & Production Analytics',
-                    'Chart system will be initialized in upcoming milestones.',
+                    'Dynamic analytics engine will be connected in upcoming milestones.',
                     'wip-chart-placeholder'
                 );
 
                 WIP_UI_Components::render_section_card(
                     'Activity Feed',
-                    'Operational activity feed will appear here.',
+                    'Operational activity feed and notifications will appear here.',
                     'wip-feed-placeholder'
                 );
                 ?>
