@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+require_once WIP_PLUGIN_PATH . 'includes/admin/class-wip-dashboard-ui.php';
+
 class WIP_Admin_Menu {
 
     /**
@@ -60,7 +62,7 @@ class WIP_Admin_Menu {
      * @return void
      */
     public function render_dashboard_page() {
-        echo '<div class="wrap"><h1>WP Investor Panel Dashboard</h1><p>Milestone 1 foundation initialized.</p></div>';
+        WIP_Dashboard_UI::render();
     }
 
     /**
