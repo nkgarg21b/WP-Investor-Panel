@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+require_once WIP_PLUGIN_PATH . 'includes/admin/class-wip-ui-components.php';
+
 class WIP_Dashboard_UI {
 
     /**
@@ -24,39 +26,30 @@ class WIP_Dashboard_UI {
 
             <div class="wip-kpi-grid">
 
-                <div class="wip-card">
-                    <div class="wip-card-title">Total Investment</div>
-                    <div class="wip-card-value">₹0</div>
-                </div>
-
-                <div class="wip-card">
-                    <div class="wip-card-title">Production Today</div>
-                    <div class="wip-card-value">0 KG</div>
-                </div>
-
-                <div class="wip-card">
-                    <div class="wip-card-title">Monthly Revenue</div>
-                    <div class="wip-card-value">₹0</div>
-                </div>
-
-                <div class="wip-card">
-                    <div class="wip-card-title">Active Investors</div>
-                    <div class="wip-card-value">0</div>
-                </div>
+                <?php
+                WIP_UI_Components::render_kpi_card( 'Total Investment', '₹0' );
+                WIP_UI_Components::render_kpi_card( 'Production Today', '0 KG' );
+                WIP_UI_Components::render_kpi_card( 'Monthly Revenue', '₹0' );
+                WIP_UI_Components::render_kpi_card( 'Active Investors', '0' );
+                ?>
 
             </div>
 
             <div class="wip-section-grid">
 
-                <div class="wip-card wip-chart-placeholder">
-                    <h2>Revenue & Production Analytics</h2>
-                    <p class="wip-placeholder-text">Chart system will be initialized in upcoming milestones.</p>
-                </div>
+                <?php
+                WIP_UI_Components::render_section_card(
+                    'Revenue & Production Analytics',
+                    'Chart system will be initialized in upcoming milestones.',
+                    'wip-chart-placeholder'
+                );
 
-                <div class="wip-card wip-feed-placeholder">
-                    <h2>Activity Feed</h2>
-                    <p class="wip-placeholder-text">Operational activity feed will appear here.</p>
-                </div>
+                WIP_UI_Components::render_section_card(
+                    'Activity Feed',
+                    'Operational activity feed will appear here.',
+                    'wip-feed-placeholder'
+                );
+                ?>
 
             </div>
 
