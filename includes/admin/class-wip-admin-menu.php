@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once WIP_PLUGIN_PATH . 'includes/admin/class-wip-dashboard-ui.php';
+require_once WIP_PLUGIN_PATH . 'modules/investors/class-wip-investor-controller.php';
 
 class WIP_Admin_Menu {
 
@@ -30,9 +31,25 @@ class WIP_Admin_Menu {
             25
         );
 
+        add_submenu_page(
+            'wip-dashboard',
+            'Dashboard',
+            'Dashboard',
+            'manage_options',
+            'wip-dashboard',
+            array( $this, 'render_dashboard_page' )
+        );
+
+        add_submenu_page(
+            'wip-dashboard',
+            'Investors',
+            'Investors',
+            'manage_options',
+            'wip-investors',
+            array( 'WIP_Investor_Controller', 'render_page' )
+        );
+
         $menus = array(
-            'Dashboard'          => 'wip-dashboard',
-            'Investors'          => 'wip-investors',
             'Production'         => 'wip-production',
             'Sales'              => 'wip-sales',
             'Expenses'           => 'wip-expenses',
