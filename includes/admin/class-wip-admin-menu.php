@@ -1,0 +1,74 @@
+<?php
+/**
+ * Admin Menu Class.
+ *
+ * @package WPInvestorPanel
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+class WIP_Admin_Menu {
+
+    /**
+     * Register admin menus.
+     *
+     * @return void
+     */
+    public function register_menus() {
+
+        add_menu_page(
+            'WP Investor Panel',
+            'WP Investor Panel',
+            'manage_options',
+            'wip-dashboard',
+            array( $this, 'render_dashboard_page' ),
+            'dashicons-chart-pie',
+            25
+        );
+
+        $menus = array(
+            'Dashboard'          => 'wip-dashboard',
+            'Investors'          => 'wip-investors',
+            'Production'         => 'wip-production',
+            'Sales'              => 'wip-sales',
+            'Expenses'           => 'wip-expenses',
+            'Payouts'            => 'wip-payouts',
+            'Reports'            => 'wip-reports',
+            'Transparency Feed'  => 'wip-transparency-feed',
+            'Documents'          => 'wip-documents',
+            'Notifications'      => 'wip-notifications',
+            'Settings'           => 'wip-settings',
+        );
+
+        foreach ( $menus as $title => $slug ) {
+            add_submenu_page(
+                'wip-dashboard',
+                $title,
+                $title,
+                'manage_options',
+                $slug,
+                array( $this, 'render_placeholder_page' )
+            );
+        }
+    }
+
+    /**
+     * Render dashboard page.
+     *
+     * @return void
+     */
+    public function render_dashboard_page() {
+        echo '<div class="wrap"><h1>WP Investor Panel Dashboard</h1><p>Milestone 1 foundation initialized.</p></div>';
+    }
+
+    /**
+     * Render placeholder pages.
+     *
+     * @return void
+     */
+    public function render_placeholder_page() {
+        echo '<div class="wrap"><h1>Module Coming Soon</h1></div>';
+    }
+}
