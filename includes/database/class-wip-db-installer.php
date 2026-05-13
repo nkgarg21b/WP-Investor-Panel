@@ -23,9 +23,13 @@ class WIP_DB_Installer {
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_name = $wpdb->prefix . 'wip_investors';
+        $investors_table = $wpdb->prefix . 'wip_investors';
+        $production_table = $wpdb->prefix . 'wip_production_logs';
+        $sales_table = $wpdb->prefix . 'wip_sales';
+        $expenses_table = $wpdb->prefix . 'wip_expenses';
+        $payouts_table = $wpdb->prefix . 'wip_payouts';
 
-        $sql = "CREATE TABLE {$table_name} (
+        $sql_investors = "CREATE TABLE {$investors_table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             user_id BIGINT UNSIGNED DEFAULT NULL,
             full_name VARCHAR(255) NOT NULL,
@@ -38,7 +42,54 @@ class WIP_DB_Installer {
             PRIMARY KEY (id)
         ) {$charset_collate};";
 
-        dbDelta( $sql );
+        $sql_production = "CREATE TABLE {$production_table} (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            production_date DATE NOT NULL,
+            room_name VARCHAR(255) DEFAULT NULL,
+            harvest_kg DECIMAL(10,2) DEFAULT 0,
+            waste_kg DECIMAL(10,2) DEFAULT 0,
+            notes TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) {$charset_collate};";
+
+        $sql_sales = "CREATE TABLE {$sales_table} (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            sale_date DATE NOT NULL,
+            customer_name VARCHAR(255) DEFAULT NULL,
+            quantity_kg DECIMAL(10,2) DEFAULT 0,
+            rate_per_kg DECIMAL(10,2) DEFAULT 0,
+            total_amount DECIMAL(15,2) DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) {$charset_collate};";
+
+        $sql_expenses = "CREATE TABLE {$expenses_table} (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            expense_date DATE NOT NULL,
+            category VARCHAR(255) DEFAULT NULL,
+            amount DECIMAL(15,2) DEFAULT 0,
+            notes TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) {$charset_collate};";
+
+        $sql_payouts = "CREATE TABLE {$payouts_table} (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            investor_id BIGINT UNSIGNED NOT NULL,
+            payout_amount DECIMAL(15,2) DEFAULT 0,
+            payout_date DATE DEFAULT NULL,
+            status VARCHAR(50) DEFAULT 'pending',
+            transaction_reference VARCHAR(255) DEFAULT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) {$charset_collate};";
+
+        dbDelta( $sql_investors );
+        dbDelta( $sql_production );
+        dbDelta( $sql_sales );
+        dbDelta( $sql_expenses );
+        dbDelta( $sql_payouts );
 
         update_option( 'wip_db_version', WIP_VERSION );
     }
