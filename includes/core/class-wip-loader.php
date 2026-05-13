@@ -28,6 +28,9 @@ class WIP_Loader {
      */
     private function load_dependencies() {
         require_once WIP_PLUGIN_PATH . 'includes/admin/class-wip-admin-menu.php';
+        require_once WIP_PLUGIN_PATH . 'includes/core/class-wip-assets.php';
+        require_once WIP_PLUGIN_PATH . 'includes/core/class-wip-roles.php';
+        require_once WIP_PLUGIN_PATH . 'includes/database/class-wip-db-installer.php';
     }
 
     /**
@@ -36,7 +39,11 @@ class WIP_Loader {
      * @return void
      */
     private function register_hooks() {
+
         $admin_menu = new WIP_Admin_Menu();
         add_action( 'admin_menu', array( $admin_menu, 'register_menus' ) );
+
+        $assets = new WIP_Assets();
+        $assets->init();
     }
 }
